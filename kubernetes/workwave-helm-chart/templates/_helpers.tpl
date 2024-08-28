@@ -1,7 +1,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "workwave.name" -}}
+{{- define "workwave-helm-chart.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -10,7 +10,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "workwave.fullname" -}}
+{{- define "workwave-helm-chart.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,16 +26,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "workwave.chart" -}}
+{{- define "workwave-helm-chart.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "workwave.labels" -}}
-helm.sh/chart: {{ include "workwave.chart" . }}
-{{ include "workwave.selectorLabels" . }}
+{{- define "workwave-helm-chart.labels" -}}
+helm.sh/chart: {{ include "workwave-helm-chart.chart" . }}
+{{ include "workwave-helm-chart.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -45,17 +45,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "workwave.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "workwave.name" . }}
+{{- define "workwave-helm-chart.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "workwave-helm-chart.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "workwave.serviceAccountName" -}}
+{{- define "workwave-helm-chart.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "workwave.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "workwave-helm-chart.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
